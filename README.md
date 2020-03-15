@@ -1,1 +1,2 @@
-# debian-10-preseed
+# Debia 10 - Preseed example
+
