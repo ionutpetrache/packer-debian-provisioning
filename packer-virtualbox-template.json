@@ -27,15 +27,32 @@
       ]
     }
   ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"]
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant"
+      ],
+      "expect_disconnect": true,
+      "scripts": [
+        "{{template_dir}}/scripts/install-docker-ce.sh",
+        "{{template_dir}}/scripts/install-vscode.sh"
+      ]
+    }
+  ],
   "post-processors": [
     {
       "type": "checksum",
-      "output": "{{user `build_output_folder`}}",
+      "output": "{{user `build_output_folder`}}/packer_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
       "checksum_types": ["md5", "sha512"]
     },
     {
       "type": "manifest",
-      "output": "{{user `build_output_folder`}}/manifest.json",
+      "output": "{{user `build_output_folder`}}/manifest-{{user `template`}}.json",
       "strip_path": true
     }
   ],
