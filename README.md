@@ -1,4 +1,4 @@
-# Provision Debian with preseed and packer
+# Provision Debian with preseed installation and packer
 
 ## Tools needed
 
@@ -7,11 +7,7 @@
 2. Install **packer**
 `brew install packer`
 
-## Manual build process with packer
-
-`packer build packer-debian-10-virtualbox.json`
-
-## How to find the responses for a preseed file
+## In case you wanna customize the provided *-preseed.cfg
 
 1. Do a manual installation of Debian
 2. After the installation check the following files:
@@ -25,6 +21,10 @@
 ## Validate your preseed file
 
 `debconf-set-selections -c preseed.cfg`
+
+## Manual build with packer
+
+`packer build packer-debian-10-virtualbox.json`
 
 ## Build a virtual box machine
 `make all`
