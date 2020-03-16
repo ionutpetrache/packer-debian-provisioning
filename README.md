@@ -7,6 +7,13 @@
 2. Install **packer**
 `brew install packer`
 
+## Build a virtual box machine
+`make all`
+
+## In case you wanna build directly with packer
+
+`packer build packer-debian-10-virtualbox.json`
+
 ## In case you wanna customize the provided *-preseed.cfg
 
 1. Do a manual installation of Debian
@@ -17,14 +24,5 @@
 4. Get current debconf settings: `debconf-get-selections --installer`
 5. Get current debconf settings for the installed packages: `debconf-get-selections`
 6. More information on [full preseed examples](https://jack.einval.com/debian-preseed/)
-
-## Validate your preseed file
-
+7. Validate your preseed file
 `debconf-set-selections -c preseed.cfg`
-
-## Manual build with packer
-
-`packer build packer-debian-10-virtualbox.json`
-
-## Build a virtual box machine
-`make all`
