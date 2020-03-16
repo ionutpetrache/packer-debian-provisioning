@@ -36,4 +36,4 @@ crash.log
 *.box
 
 # Output folder
-output-virtualbox-iso/
+output/

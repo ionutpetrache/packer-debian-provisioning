@@ -1,11 +1,13 @@
 # Provision Debian with preseed and packer
 
-## Tools needed to be able to create a Debian virtual machine
+## Tools needed
 
-1. virtualbox: `brew cask install virtualbox`
-2. packer: `brew install packer`
+1. Install **virtualbox** 
+`brew cask install virtualbox`
+2. Install **packer**
+`brew install packer`
 
-## How to start the build process
+## Manual build process with packer
 
 `packer build packer-debian-10-virtualbox.json`
 
@@ -13,9 +15,8 @@
 
 1. Do a manual installation of Debian
 2. After the installation check the following files:
-* `/var/log/installer/cdebconf/templates.dat`
-* `/var/log/installer/cdebconf/questions.dat`
-* `var/log/installer/cdebconf`
+    1. `/var/log/installer/cdebconf/templates.dat`
+    2. `/var/log/installer/cdebconf/questions.dat`
 3. Install debconf-utils package
 4. Get current debconf settings: `debconf-get-selections --installer`
 5. Get current debconf settings for the installed packages: `debconf-get-selections`
@@ -25,5 +26,5 @@
 
 `debconf-set-selections -c preseed.cfg`
 
-## Build with make
+## Build a virtual box machine
 `make all`

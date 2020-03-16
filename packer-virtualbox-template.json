@@ -1,6 +1,7 @@
 {
     "builders": [
     {
+      "type": "virtualbox-iso",
       "boot_wait": "10s",
       "boot_command": [
         "<esc><wait>",
@@ -19,7 +20,23 @@
       "ssh_username": "{{user `guest_os_user`}}",
       "ssh_password": "{{user `guest_os_password`}}",
       "ssh_wait_timeout": "100000s",
-      "type": "virtualbox-iso"
+      "format": "ova",
+      "output_directory": "{{ user `build_output_folder` }}/packer-{{user `template`}}-virtualbox",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "{{user `video_memory_size`}}"]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "checksum",
+      "output": "{{user `build_output_folder`}}",
+      "checksum_types": ["md5", "sha512"]
+    },
+    {
+      "type": "manifest",
+      "output": "{{user `build_output_folder`}}/manifest.json",
+      "strip_path": true
     }
   ],
   "variables": {
@@ -27,10 +44,13 @@
     "os_name": "Debian_10",
     "disk_size": "30000",
     "memory_size": "2048",
+    "video_memory_size": "128",
     "cpu_number": "2",
     "install_iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.3.0-amd64-netinst.iso",
     "install_iso_sha512": "08962831a26cad19ac5e1418a5f907a907d375c6d51be608281f5b733c248d7bd4008439af224f3d52df2e500f38e939e1bd46dd9371b2bdc7101b0efcb65634",
     "guest_os_user": "vagrant",
-    "guest_os_password": "vagrant"
+    "guest_os_password": "vagrant",
+    "template": "debian-10.3.0-amd64",
+    "build_output_folder": "{{template_dir}}/output"
   }
 }
