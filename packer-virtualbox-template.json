@@ -1,0 +1,36 @@
+{
+    "builders": [
+    {
+      "boot_wait": "10s",
+      "boot_command": [
+        "<esc><wait>",
+        "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_file`}} <enter><wait>"
+      ],
+      "guest_os_type": "{{user `os_name`}}",
+      "disk_size": "{{user `disk_size`}}",
+      "cpus": "{{user `cpu_number`}}",
+      "memory": "{{user `memory_size`}}",
+      "usb": true,
+      "http_directory": "http",
+      "iso_checksum_type": "sha512",
+      "iso_checksum": "{{user `install_iso_sha512`}}",
+      "iso_url": "{{user `install_iso_url`}}",
+      "shutdown_command": "echo '{{user `guest_os_password`}}' | sudo -S shutdown -P now",
+      "ssh_username": "{{user `guest_os_user`}}",
+      "ssh_password": "{{user `guest_os_password`}}",
+      "ssh_wait_timeout": "100000s",
+      "type": "virtualbox-iso"
+    }
+  ],
+  "variables": {
+    "preseed_file": "debian-10-preseed.cfg",
+    "os_name": "Debian_10",
+    "disk_size": "30000",
+    "memory_size": "2048",
+    "cpu_number": "2",
+    "install_iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.3.0-amd64-netinst.iso",
+    "install_iso_sha512": "08962831a26cad19ac5e1418a5f907a907d375c6d51be608281f5b733c248d7bd4008439af224f3d52df2e500f38e939e1bd46dd9371b2bdc7101b0efcb65634",
+    "guest_os_user": "vagrant",
+    "guest_os_password": "vagrant"
+  }
+}
