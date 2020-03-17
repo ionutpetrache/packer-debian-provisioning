@@ -42,7 +42,8 @@
       "scripts": [
         "{{template_dir}}/../scripts/install-docker-ce.sh",
         "{{template_dir}}/../scripts/install-vscode.sh",
-        "{{template_dir}}/../scripts/install-vbox-tools.sh"
+        "{{template_dir}}/../scripts/install-vbox-tools.sh",
+        "{{template_dir}}/../scripts/install-robotframework.sh"
       ]
     }
   ],

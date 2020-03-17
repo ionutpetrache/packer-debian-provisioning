@@ -2,10 +2,23 @@
 
 ## Tools needed
 
-1. Install **virtualbox** 
-`brew cask install virtualbox`
-2. Install **packer**
-`brew install packer`
+1. Install **homebrew**
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";brew update
+```
+
+2. Install **virtualbox** 
+```
+brew cask install virtualbox
+```
+3. Install **packer**
+```
+brew install packer
+```
+4. Install **vagrant** - optional
+```
+brew cask install vagrant
+```
 
 ## Build a virtual box machine
 `make all`
