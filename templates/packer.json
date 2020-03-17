@@ -8,7 +8,7 @@
         "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_file`}} <enter><wait>"
       ],
       "guest_os_type": "{{user `os_name`}}",
-      "vm_name": "{{user `template`}}-{{isotime \"2000-01-02\"}}",
+      "vm_name": "{{user `template`}}-{{isotime \"2006-01-02\"}}",
       "http_directory": "http",
       "iso_checksum_type": "sha512",
       "iso_checksum": "{{user `install_iso_sha512`}}",
@@ -50,18 +50,18 @@
   "post-processors": [
     {
       "type": "checksum",
-      "output": "{{user `build_output_folder`}}/{{user `template`}}-{{isotime \"2000-01-02\"}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
+      "output": "{{user `build_output_folder`}}/{{user `template`}}-{{isotime \"2006-01-02\"}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
       "checksum_types": ["md5", "sha512"]
     },
     {
       "type": "manifest",
-      "output": "{{user `build_output_folder`}}/{{user `template`}}-{{isotime \"2000-01-02\"}}-manifest.json",
+      "output": "{{user `build_output_folder`}}/{{user `template`}}-{{isotime \"2006-01-02\"}}-manifest.json",
       "strip_path": true
     },
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "{{user `build_output_folder`}}/vagrant/{{user `template`}}-{{isotime \"2000-01-02\"}}-{{.Provider}}.box"
+      "output": "{{user `build_output_folder`}}/vagrant/{{user `template`}}-{{isotime \"2006-01-02\"}}-{{.Provider}}.box"
     }
   ],
   "variables": {
