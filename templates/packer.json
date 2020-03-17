@@ -8,24 +8,24 @@
         "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_file`}} <enter><wait>"
       ],
       "guest_os_type": "{{user `os_name`}}",
-      "disk_size": "{{user `disk_size`}}",
-      "cpus": "{{user `cpu_number`}}",
-      "memory": "{{user `memory_size`}}",
-      "usb": true,
+      "vm_name": "{{user `template`}}-{{isotime \"2000-01-02\"}}",
       "http_directory": "http",
       "iso_checksum_type": "sha512",
       "iso_checksum": "{{user `install_iso_sha512`}}",
       "iso_url": "{{user `install_iso_url`}}",
+      "output_directory": "{{ user `build_output_folder` }}/virtualbox/",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "{{user `video_memory_size`}}"]
+      ],
+      "disk_size": "{{user `disk_size`}}",
+      "cpus": "{{user `cpu_number`}}",
+      "memory": "{{user `memory_size`}}",
+      "usb": true,
+      "format": "ova",
       "shutdown_command": "echo '{{user `guest_os_password`}}' | sudo -S shutdown -P now",
       "ssh_username": "{{user `guest_os_user`}}",
       "ssh_password": "{{user `guest_os_password`}}",
-      "ssh_wait_timeout": "100000s",
-      "format": "ova",
-      "output_directory": "{{ user `build_output_folder` }}/virtualbox/",
-      "vm_name": "{{user `template`}}",
-      "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--vram", "{{user `video_memory_size`}}"]
-      ]
+      "ssh_wait_timeout": "100000s"
     }
   ],
   "provisioners": [
@@ -49,18 +49,18 @@
   "post-processors": [
     {
       "type": "checksum",
-      "output": "{{user `build_output_folder`}}/{{user `template`}}_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
+      "output": "{{user `build_output_folder`}}/{{user `template`}}-{{isotime \"2000-01-02\"}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
       "checksum_types": ["md5", "sha512"]
     },
     {
       "type": "manifest",
-      "output": "{{user `build_output_folder`}}/{{user `template`}}-manifest.json",
+      "output": "{{user `build_output_folder`}}/{{user `template`}}-{{isotime \"2000-01-02\"}}-manifest.json",
       "strip_path": true
     },
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "{{user `build_output_folder`}}/vagrant/{{user `template`}}_{{.Provider}}.box"
+      "output": "{{user `build_output_folder`}}/vagrant/{{user `template`}}-{{isotime \"2000-01-02\"}}-{{.Provider}}.box"
     }
   ],
   "variables": {
