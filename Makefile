@@ -7,6 +7,6 @@ clean:
 
 provision:
 	@echo Start provisioning system with packer and debian preseed
-	packer build packer-virtualbox-template.json
+	packer build templates/packer.json
 
 all: clean provision

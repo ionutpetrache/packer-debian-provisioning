@@ -21,7 +21,8 @@
       "ssh_password": "{{user `guest_os_password`}}",
       "ssh_wait_timeout": "100000s",
       "format": "ova",
-      "output_directory": "{{ user `build_output_folder` }}/packer-{{user `template`}}-virtualbox",
+      "output_directory": "{{ user `build_output_folder` }}/virtualbox/",
+      "vm_name": "{{user `template`}}",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--vram", "{{user `video_memory_size`}}"]
       ]
@@ -30,7 +31,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": ["echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"]
+      "inline": ["echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections"]
     },
     {
       "type": "shell",
@@ -39,21 +40,27 @@
       ],
       "expect_disconnect": true,
       "scripts": [
-        "{{template_dir}}/scripts/install-docker-ce.sh",
-        "{{template_dir}}/scripts/install-vscode.sh"
+        "{{template_dir}}/../scripts/install-docker-ce.sh",
+        "{{template_dir}}/../scripts/install-vscode.sh",
+        "{{template_dir}}/../scripts/install-vbox-tools.sh"
       ]
     }
   ],
   "post-processors": [
     {
       "type": "checksum",
-      "output": "{{user `build_output_folder`}}/packer_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
+      "output": "{{user `build_output_folder`}}/{{user `template`}}_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum",
       "checksum_types": ["md5", "sha512"]
     },
     {
       "type": "manifest",
-      "output": "{{user `build_output_folder`}}/manifest-{{user `template`}}.json",
+      "output": "{{user `build_output_folder`}}/{{user `template`}}-manifest.json",
       "strip_path": true
+    },
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "{{user `build_output_folder`}}/vagrant/{{user `template`}}_{{.Provider}}.box"
     }
   ],
   "variables": {
@@ -68,6 +75,6 @@
     "guest_os_user": "vagrant",
     "guest_os_password": "vagrant",
     "template": "debian-10.3.0-amd64",
-    "build_output_folder": "{{template_dir}}/output"
+    "build_output_folder": "{{template_dir}}/../output"
   }
 }
